@@ -1,0 +1,27 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Lottery
+    network: bsc
+    source:
+      address: "0xA4EF6E76a4478aA39AD8e58f377bd05159316A02"
+      abi: Lottery
+      startBlock: 24415461
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Player
+        - AutoPoolPlayerJoiningHistory
+      abis:
+        - name: Lottery
+          file: ./abis/Lottery.json
+      eventHandlers:
+        - event: PlayerUpdated(indexed address,indexed uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handlePlayerUpdated
+        - event: PlayerDeposited(indexed address,indexed uint256,bool,uint256)
+          handler: handlePlayerDeposited
+      file: ./src/lottery.ts
